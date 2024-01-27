@@ -1,21 +1,20 @@
-'use client'
+"use client";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import "./globals.css";
 import { useState } from "react";
 
-
 export default function Home() {
-  const [videoUrl, setVideoUrl] = useState('');
+  const [videoUrl, setVideoUrl] = useState("");
   const [result, setResult] = useState(null);
 
   const handleAnalyze = async () => {
     try {
-      const response = await fetch('http://localhost:5000/analyze_youtube', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5000/analyze_youtube", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ video_url: videoUrl }),
       });
@@ -23,7 +22,7 @@ export default function Home() {
       const data = await response.json();
       setResult(data);
     } catch (error) {
-      console.error('Error analyzing YouTube video:', error);
+      console.error("Error analyzing YouTube video:", error);
     }
   };
   return (
@@ -42,21 +41,23 @@ export default function Home() {
         />
 
         <Button
-        onClick ={handleAnalyze}
+          onClick={handleAnalyze}
           variant="outline"
           className="mt-5 border-0 border-none border-transparent  rounded-full bg-violet-900 hover:bg-violet-700 text-white hover:text-white"
         >
           Submit
         </Button>
         {result && (
-        <div className="mt-5 text-lg">
-          
-          <p className="text-green-600 font-semibold">Positive Percentage: {result.positive_percentage.toFixed(2)}%</p>
-          <p className="text-red-500 font-semibold">Negative Percentage: {result.negative_percentage.toFixed(2)}%</p>
-        </div>
-      )}
+          <div className="mt-5 text-lg">
+            <p className="text-green-600 font-semibold">
+              Positive Percentage: {result.positive_percentage.toFixed(2)}%
+            </p>
+            <p className="text-red-500 font-semibold">
+              Negative Percentage: {result.negative_percentage.toFixed(2)}%
+            </p>
+          </div>
+        )}
       </main>
-      
     </>
   );
 }
